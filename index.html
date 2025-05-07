@@ -1,11 +1,114 @@
+<!-- File: index.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Die beste Webseite</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persönliches KI-Widget</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hallo lieber Besucher!</h1>
-    <p>Silas Kammer ist der krasseste frfr</p>
+  <header>
+    <h1>Meine persönliche Seite</h1>
+  </header>
+  <main>
+    <!-- Hauptcontent hier -->
+
+    <!-- Chat-Widget -->
+    <div id="chat-widget">
+      <div id="messages" class="hidden"></div>
+      <div id="input-wrapper">
+        <textarea id="input-field" rows="1" placeholder="Schreibe eine Nachricht..."></textarea>
+        <button id="send-btn" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+  <script>
+    const textarea = document.getElementById('input-field');
+    const sendBtn  = document.getElementById('send-btn');
+    const messages = document.getElementById('messages');
+  
+    const TOKEN = "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";
+    const MODEL = "meta-llama/Llama-3.1-8B-Instruct";
+    const API = `https://api-inference.huggingface.co/models/${MODEL}`;
+  
+    textarea.addEventListener('input', () => {
+      const lh = parseFloat(getComputedStyle(textarea).lineHeight);
+      const mh = lh * 5;
+      textarea.style.height = Math.min(textarea.scrollHeight, mh) + 'px';
+      sendBtn.disabled = !textarea.value.trim();
+    });
+  
+    sendBtn.addEventListener('click', sendMessage);
+  
+    async function sendMessage() {
+      const userText = textarea.value.trim();
+      if (!userText) return;
+  
+      // UI: Spinner & Disable
+      sendBtn.disabled = true;
+      textarea.disabled = true;
+      const oldIcon = sendBtn.innerHTML;
+      sendBtn.innerHTML = '<div class="spinner"></div>';
+  
+      appendMessage(userText, 'user');
+      textarea.value = '';
+      textarea.style.height = 'auto';
+  
+
+      const prompt = `Peter Kämmerer … Insider-Witze über Fahrradtouren.\n\nFrage: ${userText}\nAntwort:`;
+  
+      try {
+        const res = await fetch(API, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${TOKEN}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            inputs: prompt,
+            parameters: {
+              max_new_tokens: 256,
+              temperature: 0.7,
+              return_full_text: false,
+              stop: ["\nFrage:"]
+            }
+          })
+        });
+  
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        let bot  = Array.isArray(data) && data[0].generated_text
+                       ? data[0].generated_text.trim()
+                       : "[keine Antwort]";
+        bot = bot.split('Frage:')[0].trim();
+        appendMessage(bot, 'bot');
+  
+      } catch (e) {
+        console.error(e);
+        appendMessage('Fehler: ' + e.message, 'bot');
+      } finally {
+        textarea.disabled = false;
+        sendBtn.innerHTML = oldIcon;
+        sendBtn.disabled = !textarea.value.trim();
+        textarea.focus();
+      }
+    }
+  
+    function appendMessage(text, sender) {
+      if (messages.classList.contains('hidden'))
+        messages.classList.remove('hidden');
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+      msg.textContent = text;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+  </script>  
 </body>
 </html>
