@@ -1,21 +1,65 @@
-<!-- File: index.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Persönliches KI-Widget</title>
+  <title>Silas Kammer ist krass</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Meine persönliche Seite</h1>
+    <h1>Willkommen auf der Silas-Seite</h1>
   </header>
   <main>
-    <!-- Hauptcontent hier -->
+    <div class="silas-fun"></div>
+      <!-- Gründe für Schorsch -->
+      <section>
+        <h2>10 Gründe, warum Schorsch der Krasseste ist</h2>
+        <ul>
+          <li>1. Er ist Dino-Experte.</li>
+          <li>2. Trägt nie Hosen, trotzdem Stil-Ikone.</li>
+          <li>3. Kann mit einem Grunzen ganze Geschichten erzählen.</li>
+          <li>4. Respektiert keine Pfützen – er dominiert sie.</li>
+          <li>5. Hat mehr Screentime verdient!</li>
+          <li>6. Niemand kann so wütend „Dinooooo!“ rufen.</li>
+          <li>7. Ist heimlich der eigentliche Star der Serie.</li>
+          <li>8. Trotzt der Unterdrückung durch Peppa mit Würde.</li>
+          <li>9. Hat nie geweint – er „schwitzt durch die Augen“.</li>
+          <li>10. Schorsch ist einfach Schorsch.</li>
+        </ul>
+      </section>
 
-    <!-- Chat-Widget -->
+      <!-- Peppa Wutz Video -->
+      <section>
+        <h2>Schorsch Sigma Short</h2>
+        <div class="video-wrapper">
+          <iframe
+            width="360"
+            height="640"
+            src="https://www.youtube.com/embed/0tbfH2I3bpc"
+            title="YouTube Short"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </section>      
+
+      <!-- Silas-Generator -->
+      <section>
+        <h2>Was würde Silas tun?</h2>
+        <button onclick="generateSilas()">Frag Silas</button>
+        <p id="silasDisplay">Klick auf den Button, um Weisheit zu empfangen.</p>
+      </section>
+
+      <!-- Quiz Hinweis -->
+      <section class="coming-soon">
+        <h2>QUIZ (bald verfügbar)</h2>
+        <p>Finde bald heraus, wie viel Silas in dir steckt!</p>
+      </section>
+    </div>
+
     <div id="chat-widget">
       <div id="messages" class="hidden"></div>
       <div id="input-wrapper">
@@ -28,87 +72,6 @@
       </div>
     </div>
   </main>
-  <script>
-    const textarea = document.getElementById('input-field');
-    const sendBtn  = document.getElementById('send-btn');
-    const messages = document.getElementById('messages');
-  
-    const TOKEN = "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";
-    const MODEL = "meta-llama/Llama-3.1-8B-Instruct";
-    const API = `https://api-inference.huggingface.co/models/${MODEL}`;
-  
-    textarea.addEventListener('input', () => {
-      const lh = parseFloat(getComputedStyle(textarea).lineHeight);
-      const mh = lh * 5;
-      textarea.style.height = Math.min(textarea.scrollHeight, mh) + 'px';
-      sendBtn.disabled = !textarea.value.trim();
-    });
-  
-    sendBtn.addEventListener('click', sendMessage);
-  
-    async function sendMessage() {
-      const userText = textarea.value.trim();
-      if (!userText) return;
-  
-      // UI: Spinner & Disable
-      sendBtn.disabled = true;
-      textarea.disabled = true;
-      const oldIcon = sendBtn.innerHTML;
-      sendBtn.innerHTML = '<div class="spinner"></div>';
-  
-      appendMessage(userText, 'user');
-      textarea.value = '';
-      textarea.style.height = 'auto';
-  
-
-      const prompt = `Peter Kämmerer … Insider-Witze über Fahrradtouren.\n\nFrage: ${userText}\nAntwort:`;
-  
-      try {
-        const res = await fetch(API, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${TOKEN}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            inputs: prompt,
-            parameters: {
-              max_new_tokens: 256,
-              temperature: 0.7,
-              return_full_text: false,
-              stop: ["\nFrage:"]
-            }
-          })
-        });
-  
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        let bot  = Array.isArray(data) && data[0].generated_text
-                       ? data[0].generated_text.trim()
-                       : "[keine Antwort]";
-        bot = bot.split('Frage:')[0].trim();
-        appendMessage(bot, 'bot');
-  
-      } catch (e) {
-        console.error(e);
-        appendMessage('Fehler: ' + e.message, 'bot');
-      } finally {
-        textarea.disabled = false;
-        sendBtn.innerHTML = oldIcon;
-        sendBtn.disabled = !textarea.value.trim();
-        textarea.focus();
-      }
-    }
-  
-    function appendMessage(text, sender) {
-      if (messages.classList.contains('hidden'))
-        messages.classList.remove('hidden');
-      const msg = document.createElement('div');
-      msg.classList.add('message', sender);
-      msg.textContent = text;
-      messages.appendChild(msg);
-      messages.scrollTop = messages.scrollHeight;
-    }
-  </script>  
+  <script src="script.js"></script>
 </body>
 </html>
