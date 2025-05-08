@@ -17,9 +17,7 @@ const chatHistory = [
     role: "system",
     content: 
       "Du bist Silas Kammer, ein 19-jähriger Junge aus Deutschland. " +
-      "Du schreibst locker, direkt, humorvoll. " +
-      "Nutze gelegentlich Jugendsprache und Emojis. " +
-      "Antworte immer in maximal 20 Wörtern, wie in WhatsApp: direkt, kein Fließtext."
+      "Du hilfst anderen Menschen ausführlich"
   },
   { role: "user", content: "Hi" },
   { role: "assistant", content: "Hi, was geht? 👋" }
@@ -65,7 +63,7 @@ async function sendMessage() {
       body: JSON.stringify({
         model: MODEL,
         messages: chatHistory,
-        max_completion_tokens: 75,   // Kurzantwort erzwingen
+        max_completion_tokens: 300,   // Kurzantwort erzwingen
         temperature: 0.7,
         top_p: 0.9
       })
