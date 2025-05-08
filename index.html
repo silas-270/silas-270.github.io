@@ -1,77 +1,45 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Silas Kammer ist krass</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header>
     <h1>Willkommen auf der Silas-Seite</h1>
   </header>
   <main>
-    <div class="silas-fun"></div>
-      <!-- Gründe für Schorsch -->
-      <section>
-        <h2>10 Gründe, warum Schorsch der Krasseste ist</h2>
-        <ul>
-          <li>1. Er ist Dino-Experte.</li>
-          <li>2. Trägt nie Hosen, trotzdem Stil-Ikone.</li>
-          <li>3. Kann mit einem Grunzen ganze Geschichten erzählen.</li>
-          <li>4. Respektiert keine Pfützen – er dominiert sie.</li>
-          <li>5. Hat mehr Screentime verdient!</li>
-          <li>6. Niemand kann so wütend „Dinooooo!“ rufen.</li>
-          <li>7. Ist heimlich der eigentliche Star der Serie.</li>
-          <li>8. Trotzt der Unterdrückung durch Peppa mit Würde.</li>
-          <li>9. Hat nie geweint – er „schwitzt durch die Augen“.</li>
-          <li>10. Schorsch ist einfach Schorsch.</li>
-        </ul>
-      </section>
-
-      <!-- Peppa Wutz Video -->
-      <section>
-        <h2>Schorsch Sigma Short</h2>
-        <div class="video-wrapper">
-          <iframe
-            width="360"
-            height="640"
-            src="https://www.youtube.com/embed/0tbfH2I3bpc"
-            title="YouTube Short"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </section>      
-
-      <!-- Silas-Generator -->
-      <section>
-        <h2>Was würde Silas tun?</h2>
-        <button onclick="generateSilas()">Frag Silas</button>
-        <p id="silasDisplay">Klick auf den Button, um Weisheit zu empfangen.</p>
-      </section>
-
-      <!-- Quiz Hinweis -->
-      <section class="coming-soon">
-        <h2>QUIZ (bald verfügbar)</h2>
-        <p>Finde bald heraus, wie viel Silas in dir steckt!</p>
-      </section>
-    </div>
-
+    <!-- Chat-Widget -->
     <div id="chat-widget">
       <div id="messages" class="hidden"></div>
       <div id="input-wrapper">
-        <textarea id="input-field" rows="1" placeholder="Schreibe eine Nachricht..."></textarea>
+        <textarea
+          id="input-field"
+          rows="1"
+          placeholder="Schreibe eine Nachricht..."
+        ></textarea>
         <button id="send-btn" disabled>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-            <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            <path
+              d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
+            />
           </svg>
         </button>
       </div>
     </div>
   </main>
-  <script src="script.js"></script>
+  <script src="chatwidget/chat-widget.js"></script>
+  <script src="chatwidget/chat-widget-style.js"></script>
 </body>
 </html>
