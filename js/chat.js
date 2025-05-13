@@ -6,6 +6,7 @@ class Chat {
         this.sendBtn = document.getElementById('send-btn');
         this.messages = document.getElementById('messages');
         this.inputWrapper = document.getElementById('input-wrapper');
+        this.debugOutput = document.getElementById('debug-output');
 
         // Chat-Historie
         this.chatHistory = [
@@ -18,6 +19,17 @@ class Chat {
         
         // Initial UI-Update
         this.updateUI();
+        this.debug('Chat initialisiert');
+    }
+
+    debug(message) {
+        console.log(message);
+        if (this.debugOutput) {
+            this.debugOutput.classList.add('visible');
+            const timestamp = new Date().toLocaleTimeString();
+            this.debugOutput.innerHTML += `[${timestamp}] ${message}\n`;
+            this.debugOutput.scrollTop = this.debugOutput.scrollHeight;
+        }
     }
 
     setupEventListeners() {
@@ -58,25 +70,28 @@ class Chat {
         const userText = this.textarea.value.trim();
         if (!userText) return;
 
-        // UI-Status aktualisieren
+        this.debug('Sende Nachricht: ' + userText);
         this.setLoading(true);
         this.appendMessage(userText, 'user');
-        
-        // Chat-Historie aktualisieren
         this.chatHistory.push({ role: 'user', content: userText });
 
         try {
+            if (!API_KEY) {
+                throw new Error('API-Key nicht gefunden');
+            }
+            this.debug('API-Key vorhanden, sende Request...');
             const response = await this.fetchBotResponse();
-            const botMessage = response.choices?.[0]?.message?.content?.trim() || '[keine Antwort]';
+            this.debug('Response erhalten: ' + JSON.stringify(response));
             
+            const botMessage = response.choices?.[0]?.message?.content?.trim() || '[keine Antwort]';
             this.chatHistory.push({ role: 'assistant', content: botMessage });
             this.appendMessage(botMessage, 'bot');
         } catch (error) {
+            this.debug('Fehler: ' + error.message);
             console.error('Fehler beim Senden der Nachricht:', error);
-            this.appendMessage('Ups, da ist etwas schiefgelaufen. Versuche es später nochmal!', 'bot');
+            this.appendMessage(`Fehler: ${error.message}. Bitte versuche es später nochmal!`, 'bot');
         } finally {
             this.setLoading(false);
-            // Textarea leeren und Fokus behalten
             this.textarea.value = '';
             this.handleInput();
             this.textarea.focus();
@@ -84,6 +99,7 @@ class Chat {
     }
 
     async fetchBotResponse() {
+        this.debug('Sende Request an: ' + CONFIG.API.URL);
         const response = await fetch(CONFIG.API.URL, {
             method: 'POST',
             headers: {
@@ -99,6 +115,7 @@ class Chat {
             })
         });
 
+        this.debug('Response Status: ' + response.status);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
