@@ -54,6 +54,21 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    position: relative;
+}
+
+.widget-section:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -2rem;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #3d3d3d;
+}
+
+.widget-section:last-child {
+    margin-top: 2rem;
 }
 
 .widget-title {
@@ -70,26 +85,30 @@ main {
     max-width: 1000px;
     margin: 0 auto;
     position: relative;
-    background: #2d2d2d;
+    background: transparent;
     border-radius: 8px;
     padding: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Messages container */
 .messages {
     max-height: 400px;
-    min-height: 200px;
+    min-height: 100px;
     overflow-y: auto;
     margin-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
     scroll-behavior: smooth;
+    background: rgba(45, 45, 45, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    transition: min-height 0.3s ease-out;
 }
 
 .messages.hidden {
     display: none;
+    min-height: 0;
 }
 
 /* Scrollbar styling */
@@ -121,12 +140,13 @@ main {
     font-size: 1rem;
     animation: messageAppear 0.3s ease-out;
     position: relative;
+    backdrop-filter: blur(5px);
 }
 
 @keyframes messageAppear {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(5px);
     }
     to {
         opacity: 1;
@@ -136,34 +156,38 @@ main {
 
 .message.user {
     align-self: flex-end;
-    background: #daf1ff;
-    color: #00539c;
+    background: rgba(218, 241, 255, 0.2);
+    color: #daf1ff;
     border-bottom-right-radius: 4px;
+    border: 1px solid rgba(218, 241, 255, 0.1);
 }
 
 .message.bot {
     align-self: flex-start;
-    background: #f1f0f0;
-    color: #333;
+    background: rgba(241, 240, 240, 0.1);
+    color: #f1f0f0;
     border-bottom-left-radius: 4px;
+    border: 1px solid rgba(241, 240, 240, 0.05);
 }
 
 /* Input area */
 .input-wrapper {
     display: flex;
     align-items: flex-end;
-    background: #303030;
+    background: rgba(45, 45, 45, 0.3);
     border-radius: 32px;
     padding: 0.675rem 0.5rem 0.5rem 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: all 0.2s ease;
-    border: 1px solid #404040;
+    border: 1px solid rgba(64, 64, 64, 0.3);
     min-height: 3.5rem;
+    backdrop-filter: blur(10px);
 }
 
 .input-wrapper:focus-within {
-    border-color: #505050;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    border-color: rgba(80, 80, 80, 0.5);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    background: rgba(45, 45, 45, 0.4);
 }
 
 /* Text input */
@@ -183,8 +207,8 @@ main {
     transition: all 0.2s ease;
     margin: 0;
     align-self: flex-end;
-    scrollbar-width: none;  /* Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* Verstecke Scrollbar für Chrome/Safari */
@@ -200,7 +224,7 @@ main {
 /* Send button */
 .send-button {
     border: none;
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.1);
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
@@ -214,16 +238,17 @@ main {
     transform-origin: center;
     margin: 0 0 0 0.5rem;
     align-self: flex-end;
+    backdrop-filter: blur(5px);
 }
 
 .send-button:disabled {
-    background: #676767;
+    background: rgba(103, 103, 103, 0.2);
     cursor: not-allowed;
     transform: scale(0.95);
 }
 
 .send-button:not(:disabled):hover {
-    background: #b3b3b3;  /* Mittelwert zwischen #676767 und #FFFFFF */
+    background: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
 }
 
@@ -233,7 +258,7 @@ main {
 
 .send-button svg {
     display: block;
-    fill: #303030;
+    fill: #fff;
     transition: fill 0.2s ease;
 }
 
@@ -291,7 +316,12 @@ main {
     cursor: pointer;
 }
 
-.run-button {
+.editor-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.run-button, .example-button {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -305,7 +335,7 @@ main {
     transition: background-color 0.2s;
 }
 
-.run-button:hover {
+.run-button:hover, .example-button:hover {
     background: #4d4d4d;
 }
 

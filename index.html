@@ -57,12 +57,17 @@
         <h2 class="widget-title">Code Editor</h2>
         <div id="code-editor" class="code-editor">
           <div class="editor-header">
-            <button id="run-code" class="run-button">
-              <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16">
-                <path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Run
-            </button>
+            <div class="editor-buttons">
+              <button id="run-code" class="run-button">
+                <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Run
+              </button>
+              <button id="example-code" class="example-button">
+                Example
+              </button>
+            </div>
             <select id="language-select" class="language-select">
               <option value="javascript">JavaScript</option>
               <option value="python">Python</option>

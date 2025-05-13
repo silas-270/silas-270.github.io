@@ -3,6 +3,7 @@ class CodeEditor {
         this.codeInput = document.getElementById('code-input');
         this.output = document.getElementById('output');
         this.runButton = document.getElementById('run-code');
+        this.exampleButton = document.getElementById('example-code');
         this.resetButton = document.getElementById('reset-code');
         this.languageSelect = document.getElementById('language-select');
 
@@ -12,6 +13,7 @@ class CodeEditor {
 
     setupEventListeners() {
         this.runButton.addEventListener('click', () => this.runCode());
+        this.exampleButton.addEventListener('click', () => this.loadExample());
         this.resetButton.addEventListener('click', () => this.resetCode());
         this.languageSelect.addEventListener('change', () => this.updateLanguage());
     }
@@ -79,6 +81,27 @@ console.log("Hallo Welt!");`;
         } else if (language === 'python') {
             this.codeInput.value = `# Schreibe deinen Code hier
 print("Hallo Welt!")`;
+        }
+        this.output.innerHTML = '';
+    }
+
+    loadExample() {
+        const language = this.languageSelect.value;
+        if (language === 'javascript') {
+            this.codeInput.value = `// Ein einfaches Beispiel
+function begrüßen(name) {
+    return "Hallo " + name + "!";
+}
+
+// Funktion aufrufen
+console.log(begrüßen("Silas"));`;
+        } else if (language === 'python') {
+            this.codeInput.value = `# Ein einfaches Beispiel
+def begrüßen(name):
+    return f"Hallo {name}!"
+
+# Funktion aufrufen
+print(begrüßen("Silas"))`;
         }
         this.output.innerHTML = '';
     }
