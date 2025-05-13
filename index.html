@@ -3,43 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Silas Kammer ist krass</title>
+  <meta name="description" content="Silas Kammer's persönliche Webseite">
+  <title>Silas Kammer</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
   <header>
     <h1>Willkommen auf der Silas-Seite</h1>
+    <p class="welcome-text">Hey! Hier kannst du mit mir chatten oder ein bisschen Code ausprobieren. Viel Spaß! 😊</p>
   </header>
   <main>
-    <!-- Chat-Widget -->
-    <div id="chat-widget">
-      <div id="messages" class="hidden"></div>
-      <div id="input-wrapper">
-        <textarea
-          id="input-field"
-          rows="1"
-          placeholder="Schreibe eine Nachricht..."
-        ></textarea>
-        <button id="send-btn" disabled>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="20"
-            height="20"
-          >
-            <path
-              d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
-            />
-          </svg>
-        </button>
-      </div>
+    <div class="widgets-container">
+      <!-- Chat-Widget -->
+      <section class="widget-section">
+        <h2 class="widget-title">Chat mit Silas</h2>
+        <div id="chat-widget" class="chat-widget">
+          <div id="messages" class="messages hidden"></div>
+          <div id="input-wrapper" class="input-wrapper">
+            <textarea
+              id="input-field"
+              class="input-field"
+              rows="1"
+              placeholder="Schreibe eine Nachricht..."
+              aria-label="Nachricht eingeben"
+            ></textarea>
+            <button 
+              id="send-btn" 
+              class="send-button" 
+              disabled
+              aria-label="Nachricht senden"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+              >
+                <path
+                  d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Code-Editor Widget -->
+      <section class="widget-section">
+        <h2 class="widget-title">Code Editor</h2>
+        <div id="code-editor" class="code-editor">
+          <div class="editor-header">
+            <button id="run-code" class="run-button">
+              <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16">
+                <path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Run
+            </button>
+            <select id="language-select" class="language-select">
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+            </select>
+          </div>
+          <div class="editor-container">
+            <textarea id="code-input" class="code-input" placeholder="Schreibe deinen Code hier..."></textarea>
+            <div id="output" class="output"></div>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
-  <script src="chatwidget/chat-widget.js"></script>
-  <script src="chatwidget/chat-widget-style.js"></script>
+  <script src="js/api-key.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/editor.js"></script>
 </body>
 </html>
