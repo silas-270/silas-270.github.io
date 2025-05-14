@@ -88,7 +88,7 @@ class Chat {
             const response = await fetch(CONFIG.API.URL, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${API_KEY}`,
+                    'Authorization': `Bearer ${CONFIG.API.KEY}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({

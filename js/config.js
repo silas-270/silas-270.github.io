@@ -1,11 +1,12 @@
 // Konfiguration für den Chat
 const CONFIG = {
     API: {
-        URL: 'https://api.groq.com/openai/v1/chat/completions',
+        URL: 'https://wandering-star-b632.silas-rocks.workers.dev/api/chat',
         MODEL: 'llama-3.3-70b-versatile',
         MAX_TOKENS: 75,
         TEMPERATURE: 0.7,
-        TOP_P: 0.9
+        TOP_P: 0.9,
+        KEY: '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' // Hier Ihren Groq API-Key einfügen
     },
     CHAT: {
         SYSTEM_PROMPT: `Du bist Silas Kammer, ein 19-jähriger Junge aus Deutschland.
@@ -38,4 +39,12 @@ WICHTIG:
             { role: "assistant", content: "Hi, was geht? 👋" }
         ]
     }
+}; 
+
+// Konfiguration für die Chat-API
+const config = {
+    apiUrl: 'https://wandering-star-b632.silas-rocks.workers.dev/api/chat',
+    model: 'mixtral-8x7b-32768',
+    temperature: 0.7,
+    maxTokens: 1000
 }; 
