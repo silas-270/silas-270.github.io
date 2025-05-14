@@ -4,7 +4,6 @@ class CodeEditor {
         this.output = document.getElementById('output');
         this.runButton = document.getElementById('run-code');
         this.exampleButton = document.getElementById('example-code');
-        this.resetButton = document.getElementById('reset-code');
         this.languageSelect = document.getElementById('language-select');
 
         this.setupEventListeners();
@@ -14,7 +13,6 @@ class CodeEditor {
     setupEventListeners() {
         this.runButton.addEventListener('click', () => this.runCode());
         this.exampleButton.addEventListener('click', () => this.loadExample());
-        this.resetButton.addEventListener('click', () => this.resetCode());
         this.languageSelect.addEventListener('change', () => this.updateLanguage());
     }
 

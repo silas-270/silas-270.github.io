@@ -6,7 +6,6 @@ class Chat {
         this.sendBtn = document.getElementById('send-btn');
         this.messages = document.getElementById('messages');
         this.inputWrapper = document.getElementById('input-wrapper');
-        this.debugOutput = document.getElementById('debug-output');
 
         // Chat-Historie
         this.chatHistory = [
@@ -19,17 +18,6 @@ class Chat {
         
         // Initial UI-Update
         this.updateUI();
-        this.debug('Chat initialisiert');
-    }
-
-    debug(message) {
-        console.log(message);
-        if (this.debugOutput) {
-            this.debugOutput.classList.add('visible');
-            const timestamp = new Date().toLocaleTimeString();
-            this.debugOutput.innerHTML += `[${timestamp}] ${message}\n`;
-            this.debugOutput.scrollTop = this.debugOutput.scrollHeight;
-        }
     }
 
     setupEventListeners() {
@@ -70,28 +58,25 @@ class Chat {
         const userText = this.textarea.value.trim();
         if (!userText) return;
 
-        this.debug('Sende Nachricht: ' + userText);
+        // UI-Status aktualisieren
         this.setLoading(true);
         this.appendMessage(userText, 'user');
+        
+        // Chat-Historie aktualisieren
         this.chatHistory.push({ role: 'user', content: userText });
 
         try {
-            if (!API_KEY) {
-                throw new Error('API-Key nicht gefunden');
-            }
-            this.debug('API-Key vorhanden, sende Request...');
             const response = await this.fetchBotResponse();
-            this.debug('Response erhalten: ' + JSON.stringify(response));
-            
             const botMessage = response.choices?.[0]?.message?.content?.trim() || '[keine Antwort]';
+            
             this.chatHistory.push({ role: 'assistant', content: botMessage });
             this.appendMessage(botMessage, 'bot');
         } catch (error) {
-            this.debug('Fehler: ' + error.message);
             console.error('Fehler beim Senden der Nachricht:', error);
-            this.appendMessage(`Fehler: ${error.message}. Bitte versuche es später nochmal!`, 'bot');
+            this.appendMessage(`Ups, da ist etwas schiefgelaufen: ${error.message}. Versuche es später nochmal!`, 'bot');
         } finally {
             this.setLoading(false);
+            // Textarea leeren und Fokus behalten
             this.textarea.value = '';
             this.handleInput();
             this.textarea.focus();
@@ -99,28 +84,37 @@ class Chat {
     }
 
     async fetchBotResponse() {
-        this.debug('Sende Request an: ' + CONFIG.API.URL);
-        const response = await fetch(CONFIG.API.URL, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: CONFIG.API.MODEL,
-                messages: this.chatHistory,
-                max_tokens: CONFIG.API.MAX_TOKENS,
-                temperature: CONFIG.API.TEMPERATURE,
-                top_p: CONFIG.API.TOP_P
-            })
-        });
+        try {
+            const response = await fetch(CONFIG.API.URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: CONFIG.API.MODEL,
+                    messages: this.chatHistory,
+                    max_tokens: CONFIG.API.MAX_TOKENS,
+                    temperature: CONFIG.API.TEMPERATURE,
+                    top_p: CONFIG.API.TOP_P
+                })
+            });
 
-        this.debug('Response Status: ' + response.status);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                console.error('API Fehler:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorData
+                });
+                throw new Error(`API Fehler: ${response.status} ${response.statusText}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Netzwerk oder API Fehler:', error);
+            throw new Error(`Verbindungsfehler: ${error.message}`);
         }
-
-        return await response.json();
     }
 
     appendMessage(text, sender) {
