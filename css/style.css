@@ -101,7 +101,7 @@ main {
     margin-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
     scroll-behavior: smooth;
     background: rgba(45, 45, 45, 0.3);
     border-radius: 8px;
@@ -379,6 +379,7 @@ main {
     max-height: 200px;
     overflow-y: auto;
     font-family: 'Consolas', monospace;
+    font-size: 14px;
     white-space: pre-wrap;
 }
 
