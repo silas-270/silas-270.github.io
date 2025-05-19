@@ -1,3 +1,3 @@
 // API-Key Konfiguration
 // Ersetzen Sie den Text zwischen den Anführungszeichen mit Ihrem neuen API-Key
-const API_KEY = "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"; 
+const API_KEY = "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"; 
