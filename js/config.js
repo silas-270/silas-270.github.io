@@ -3,7 +3,7 @@ const CONFIG = {
     API: {
         URL: 'https://wandering-star-b632.silas-rocks.workers.dev/api/chat',
         MODEL: 'llama-3.3-70b-versatile',
-        MAX_TOKENS: 500,
+        MAX_TOKENS: 3000,
         TEMPERATURE: 0.7,
         TOP_P: 0.9,
         KEY: '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'
