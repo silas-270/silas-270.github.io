@@ -1,91 +1,97 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Silas Kammer's persönliche Webseite">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <title>Silas Kammer</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="css/style.css"/>
-</head>
-<body>
-  <header>
-    <h1>Willkommen auf der Silas-Seite</h1>
-    <p class="welcome-text">Hi auf der besten Webseite! Hier kannst du mit KI-Silas chatten oder Code schreiben. Viel Spaß! 🐐</p>
-  </header>
-  <main>
-    <div class="widgets-container">
-      <!-- Chat-Widget -->
-      <section class="widget-section">
-        <h2 class="widget-title">Chatte mit KI-Silas</h2>
-        <div id="chat-widget" class="chat-widget">
-          <div id="messages" class="messages hidden"></div>
-          <div id="input-wrapper" class="input-wrapper">
-            <textarea
-              id="input-field"
-              class="input-field"
-              rows="1"
-              placeholder="Schreibe eine Nachricht..."
-              aria-label="Nachricht eingeben"
-            ></textarea>
-            <button 
-              id="send-btn" 
-              class="send-button" 
-              disabled
-              aria-label="Nachricht senden"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-              >
-                <path
-                  d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Silas Kammer's persönliche Webseite">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>Silas Kammer</title>
 
-      <!-- Code-Editor Widget -->
-      <section class="widget-section">
-        <h2 class="widget-title">Code Editor</h2>
-        <div id="code-editor" class="code-editor">
-          <div class="editor-header">
-            <div class="editor-buttons">
-              <button id="run-code" class="run-button">
-                <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16">
-                  <path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+          rel="stylesheet"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/chat.css"/>
+    <link rel="stylesheet" href="css/editor.css"/>
+
+    <!-- KaTeX: CSS + JS (Engine) -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Willkommen auf der Silas-Seite</h1>
+      <p class="welcome-text">Hi auf der besten Webseite! Hier kannst du mit KI-Silas chatten oder Code schreiben. Viel Spaß! 🐐</p>
+    </header>
+    <main>
+      <div class="widgets-container">
+        <!-- Chat-Widget -->
+        <section class="widget-section">
+          <h2 class="widget-title">Chatte mit KI-Silas</h2>
+          <div id="chat-widget" class="chat-widget">
+            <div id="messages" class="messages hidden"></div>
+            <div id="input-wrapper" class="input-wrapper">
+              <textarea
+                id="input-field"
+                class="input-field"
+                rows="1"
+                placeholder="Schreibe eine Nachricht..."
+                aria-label="Nachricht eingeben"
+              ></textarea>
+              <button 
+                id="send-btn" 
+                class="send-button" 
+                disabled
+                aria-label="Nachricht senden"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
+                  />
                 </svg>
-                Run
-              </button>
-              <button id="example-code" class="example-button">
-                Example
               </button>
             </div>
-            <select id="language-select" class="language-select">
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
-            </select>
           </div>
-          <div class="editor-container">
-            <textarea id="code-input" class="code-input" placeholder="Schreibe deinen Code hier..."></textarea>
-            <div id="output" class="output"></div>
+        </section>
+
+        <!-- Code-Editor Widget -->
+        <section class="widget-section">
+          <h2 class="widget-title">Code Editor</h2>
+          <div id="code-editor" class="code-editor">
+            <div class="editor-header">
+              <div class="editor-buttons">
+                <button id="run-code" class="run-button">
+                  <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Run
+                </button>
+                <button id="example-code" class="example-button">
+                  Example
+                </button>
+              </div>
+              <select id="language-select" class="language-select">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+              </select>
+            </div>
+            <div class="editor-container">
+              <textarea id="code-input" class="code-input" placeholder="Schreibe deinen Code hier..."></textarea>
+              <div id="output" class="output"></div>
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
-  </main>
-  <script src="js/api-key.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/chat.js"></script>
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-  <script src="js/editor.js"></script>
-</body>
+        </section>
+      </div>
+    </main>
+    <script src="js/config.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script src="js/editor.js"></script>
+  </body>
 </html>

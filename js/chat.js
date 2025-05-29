@@ -118,13 +118,55 @@ class Chat {
     }
 
     appendMessage(text, sender) {
+        console.log("Input text to appendMessage:", text);
         if (this.messages.classList.contains('hidden')) {
             this.messages.classList.remove('hidden');
         }
 
         const msg = document.createElement('div');
         msg.classList.add('message', sender);
-        msg.textContent = text;
+
+        const content = document.createElement('div');
+        content.classList.add('message-text');
+
+        // 1) Zerteile deinen Text an allen Math‐Grenzen ($$…$$ oder $…$)
+        //    und erhalte ein Array, in dem Math‐Blöcke und Plain‐Text abwechseln.
+        const parts = text.split(
+            /(\$\$[\s\S]+?\$\$|\$[^\$\n]+?\$)/g
+        );
+
+        // 2) Baue den content-Container aus diesen Fragmenten
+        parts.forEach(part => {
+            if (part.startsWith('$$') && part.endsWith('$$')) {
+                // Display-Math
+                const tex = part.slice(2, -2);
+                const span = document.createElement('span');
+                span.innerHTML = katex.renderToString(tex, {
+                    displayMode: true,
+                    throwOnError: false,
+                    strict: false
+                });
+                content.appendChild(span);
+
+            } else if (part.startsWith('$') && part.endsWith('$')) {
+                // Inline-Math
+                const tex = part.slice(1, -1);
+                const span = document.createElement('span');
+                span.innerHTML = katex.renderToString(tex, {
+                    displayMode: false,
+                    throwOnError: false,
+                    strict: false
+                });
+                content.appendChild(span);
+
+            } else {
+                // reiner Text
+                const textNode = document.createTextNode(part);
+                content.appendChild(textNode);
+            }
+        });
+
+        msg.appendChild(content);
         this.messages.appendChild(msg);
         this.messages.scrollTop = this.messages.scrollHeight;
     }
