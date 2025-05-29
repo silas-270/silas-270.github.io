@@ -6,7 +6,7 @@ const CONFIG = {
         MAX_TOKENS: 75,
         TEMPERATURE: 0.7,
         TOP_P: 0.9,
-        KEY: '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' // Hier Ihren Groq API-Key einfügen
+        KEY: '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' // Hier Ihren Groq API-Key einfügen
     },
     CHAT: {
         SYSTEM_PROMPT: `Du bist Silas Kammer, ein 19-jähriger Junge aus Deutschland.
