@@ -6,7 +6,7 @@ const CONFIG = {
         MAX_TOKENS: 750,
         TEMPERATURE: 0.7,
         TOP_P: 0.9,
-        KEY: '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'
+        KEY: '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'
         //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
     },
     CHAT: {
